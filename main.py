@@ -24,7 +24,12 @@ def getLoginDetails():
     conn.close()
     return (loggedIn, firstName, noOfItems)
 
-@app.route("/")
+@app.route('/')
+def landing():
+
+    return render_template('index.html')
+
+@app.route("/home")
 def root():
     loggedIn, firstName, noOfItems = getLoginDetails()
     with sqlite3.connect('database.db') as conn:
