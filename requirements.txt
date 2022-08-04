@@ -1,9 +1,4 @@
-flask
-werkzeug
-hashlib
-
--anaconda install 
-- virutal env
-- install requirements
-- mysql server
-- mysql client
+Flask==1.1.2
+mysql_connector_repackaged==0.3.1
+numpy==1.17.4
+Werkzeug==1.0.1
