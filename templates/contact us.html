@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Crackers</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style_nip.css') }}"
+    />
+    <!-- Fontawesome CDN Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="
+    <link rel=" preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&display=swap"
+      rel="stylesheet"
+    />
+    ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <div id="navlist">
+      <a href="/">Home</a>
+      <a href="/home">Products</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+
+      <!-- search bar right align -->
+      <div class="search">
+        <form action="#">
+          <input type="text" placeholder=" Search" name="search" />
+          <button>
+            <i class="fa fa-search" style="font-size: 18px"> </i>
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- map -->
+    <div class="map">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15561.25239937208!2d80.044416!3d12.823033!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfdb944a3aee53831!2sSRM%20Institute%20of%20Science%20and%20Technology!5e0!3m2!1sen!2sin!4v1659379013470!5m2!1sen!2sin"
+        width="400"
+        height="500"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    <!-- Contact us -->
+    <div class="container">
+      <div class="content">
+        <div class="left-side">
+          <div class="address details">
+            <i class="fas fa-map-marker-alt"></i>
+            <div class="topic">Address</div>
+            <div class="text-one">Lorem, ipsum dolor.</div>
+            <div class="text-two">Lorem ipsum dolor sit.</div>
+          </div>
+          <div class="phone details">
+            <i class="fas fa-phone-alt"></i>
+            <div class="topic">Phone</div>
+            <div class="text-one">+0098 9893 78811</div>
+            <div class="text-two">+0096 3434 89562</div>
+          </div>
+          <div class="email details">
+            <i class="fas fa-envelope"></i>
+            <div class="topic">Email</div>
+            <div class="text-one">Loremipsum.@com</div>
+            <div class="text-two">info@gmail.com</div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="topic-text">Send us a message</div>
+          <p>If you Have any query just send us a mail</p>
+          <form action="#">
+            <div class="input-box">
+              <input type="text" placeholder="Enter your name" />
+            </div>
+            <div class="input-box">
+              <input type="text" placeholder="Enter your email" />
+            </div>
+            <div class="input-box message-box">
+              <textarea placeholder="Enter your message"></textarea>
+            </div>
+            <div class="button">
+              <input type="button" value="Send Now" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="other">
+      <p class="f-text">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
+        modi at maxime obcaecati qui, odit culpa! Consectetur amet reiciendis
+        libero inventore corporis accusamus facilis voluptas, nisi odit
+        suscipit, deserunt quibusdam pariatur explicabo quasi! Ad voluptatum sed
+        quam deleniti iure molestiae modi in officia perspiciatis neque!
+      </p>
+      <p class="quick">Quik Links</p>
+      <p class="policies">Our Policies</p>
+      <p class="reach">Reach Us on</p>
+
+      <img src="{{ url_for('static', filename='brands.jpg') }}" alt="" />
+    </div>
+    <footer>
+      <p>Crackers All right reserved &copy;</p>
+    </footer>
+  </body>
+</html>

@@ -8,6 +8,20 @@ UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+def parse(data):
+    ans = []
+    i = 0
+    while i < len(data):
+        curr = []
+        for j in range(7):
+            if i >= len(data):
+                break
+            curr.append(data[i])
+            i += 1
+        ans.append(curr)
+    return ans
+
+
 def getLoginDetails():
     with sqlite3.connect('database1.db') as conn:
         cur = conn.cursor()
@@ -26,8 +40,9 @@ def getLoginDetails():
 
 @app.route('/')
 def landing():
-
     return render_template('index.html')
+
+
 
 @app.route("/home")
 def root():
@@ -38,8 +53,17 @@ def root():
         itemData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
-    itemData = parse(itemData)   
+        ans = []
+    for i in itemData:
+        ans.append(i)
+    itemData = parse(itemData)
     return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
+
+
+@app.route('/contactUs')
+def contactUs():
+    return render_template('contact us.html')
+
 
 @app.route("/add")
 def admin():
