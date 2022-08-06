@@ -56,7 +56,8 @@ def root():
         ans = []
     for i in itemData:
         ans.append(i)
-    itemData = parse(itemData)
+    print(ans)
+    itemData = ans
     return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
 
 
