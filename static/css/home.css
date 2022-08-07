@@ -9,6 +9,7 @@
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-bottom: 20px;
+    color: #f7f5f500;
 }
 
 /* table {
@@ -102,7 +103,7 @@ body {
 }
 
 .glass {
-    box-shadow: 0 8px 32px 0 rgba(22, 27, 98, 0.37);
+    box-shadow: 0 8px 32px 0 rgba(249, 249, 249, 0.37);
 }
 
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
