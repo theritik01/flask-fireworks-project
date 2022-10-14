@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sivak Home</title>
-    <link rel="stylesheet" href={{ url_for('static', filename='home.css') }} />
+    <link rel="stylesheet" href="home.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css">
 </head>
@@ -19,9 +19,9 @@
                 <a href="#">Contact Us</a>
             </div>
             <div class="icons">
-                <a href="#"><img src={{url_for('static', filename='images/search.jpg')}}></a>
-                <a href="#"><img src={{url_for('static', filename='images/account.jpg')}}></a>
-                <a href="#"><img src={{url_for('static', filename='images/cart.jpg')}}></a>
+                <a href="#"><img src="images/search.jpg"></a>
+                <a href="#"><img src="images/account.png"></a>
+                <a href="#"><img src="images/cart.png"></a>
             </div>
             <button class="hamburger">
                 <span></span> 
@@ -32,14 +32,11 @@
     </nav>
     <div class="category">
         <h2>Categories</h2>
-        {% for row in categoryData %}
-			<a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a>
-		{% endfor %}
-        <!--a href="#">Night Crackers</a>
+        <a href="#">Night Crackers</a>
         <a href="#">Kids Selection</a>
         <a href="#">Blasts</a>
         <a href="#">Saravedi</a>
-        <a href="#">Sparklers</a-->
+        <a href="#">Sparklers</a>
         <div class="form_box">   
             <div class="container2">
                 <div class="select-box">
@@ -218,15 +215,29 @@
         <a href="#">View More</a>
         <div class="row">
             <div class="col">
-                <a href="#"><img src={{ url_for('static', filename='images/sparkler.jpg') }}></a>
+                <a href="#"><img src="images/sparkler.jpg"></a>
                 <h4>Sparkler</h4>
                 <p>₹22</p>
             </div>
             <div class="col">
-                <a href="#"><img src={{ url_for('static', filename='images/buss.jpg') }}></a>
+                <a href="#"><img src="images/buss.jpg"></a>
                 <h4>Flower Pot</h4>
                 <p>₹30</p>
             </div>
+            <div class="col">
+                <a href="#"><img src="images/chakra.jpg"></a>
+                <h4>Chakra</h4>
+                <p>₹18</p>
+            </div>
+            <div class="col">
+                <a href="#"><img src="images/atom.jpg"></a>
+                <h4>Atom Bomb</h4>
+                <p>₹25</p>
+            </div>
+            <div class="col">
+                <a href="#"><img src="images/rocket.jpg"></a>
+                <h4>Rocket</h4>
+                <p>₹28</p>
             </div>
         </div>
     </div>
@@ -234,17 +245,17 @@
         <div class="small-container2">
             <div class="row">
                 <div class="col-1">
-                    <img src={{ url_for('static', filename='images/quote.jpg') }}>
+                    <img src="images/quote.jpg">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fermentum iaculis eu non. Sed cras ornare arcu dui vivamus arcu felis bibendum ut.</p>
                     <h3>S Muralidharan</h3>
                 </div>
                 <div class="col-1">
-                    <img src={{ url_for('static', filename='images/quote.jpg') }}>
+                    <img src="images/quote.jpg">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fermentum iaculis eu non. Sed cras ornare arcu dui vivamus arcu felis bibendum ut.</p>
                     <h3>Priya S</h3>
                 </div>
                 <div class="col-1">
-                    <img src={{ url_for('static', filename='images/quote.jpg') }}>
+                    <img src="images/quote.jpg">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Magna fermentum iaculis eu non. Sed cras ornare arcu dui vivamus arcu felis bibendum ut.</p>
                     <h3>Natrajan</h3>
                 </div>
@@ -256,19 +267,19 @@
         <div class="small-container">
             <div class="row">
                 <div class="col-2">
-                    <img src={{ url_for('static', filename='images/anil3.jpg') }}>
+                    <img src="images/anil3.jpg">
                 </div>
                 <div class="col-2">
-                    <img src={{ url_for('static', filename='images/kalishwari.jpg') }}>
+                    <img src="images/kalishwari.jpg">
                 </div>
                 <div class="col-2">
-                    <img src={{ url_for('static', filename='images/peacock.jpg') }}>
+                    <img src="images/peacock.jpg">
                 </div>
                 <div class="col-2">
-                    <img src={{ url_for('static', filename='images/sony.jpg') }}>
+                    <img src="images/sony.jpg">
                 </div>
                 <div class="col-2">
-                    <img src={{ url_for('static', filename='images/vanitha.jpg') }}>
+                    <img src="images/vanitha.jpg">
                 </div>
             </div>
         </div>
@@ -282,7 +293,7 @@
                     <p>Download App for IOS and Android</p>
                 </div>
                 <div class="footer-col-2">
-                    <img src={{ url_for('static', filename='images/SIVAK.jpg.png') }}>
+                    <img src="images/Sivak.jpg.png">
                     <p>We are "SIVAK" crackers online store, 
                         wholesaler of fireworks and crackers owning a 
                         shop in Sivakasi, Tamilnadu. We are into this 
@@ -315,9 +326,9 @@
         </div>
     </div>
 
-    <script src={{ url_for('static', filename='burger.js') }}></script>
-    <script src={{ url_for('static', filename='form.js') }}></script>
-    <script src={{ url_for('static', filename='.js') }}></script>
+    <script src="burger.js"></script>
+    <script src="form.js"></script>
+    <script src="slider.js"></script>
     
 </body>
 </html> 
