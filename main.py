@@ -40,13 +40,14 @@ def getLoginDetails():
 
 @app.route('/')
 def landing():
+    loggedIn, firstName, noOfItems = getLoginDetails()
     with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
         cur = conn.cursor()
         cur.execute('SELECT productId, name, price, description, image, stock FROM products')
         itemData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
-    return render_template('Index.html',categoryData=categoryData)
+    return render_template('Index.html',categoryData=categoryData,loggedIn=loggedIn,itemData=itemData)
 
 
 

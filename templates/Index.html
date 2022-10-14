@@ -13,15 +13,19 @@
         <div class="container">
             <h1>Sivak</h1>
             <div class="menu">
-                <a href="#" class="is-active">Home</a> 
-                <a href="#">About Us</a> 
-                <a href="#">Products</a>
-                <a href="#">Contact Us</a>
+                <a href="/" class="is-active">Home</a> 
+                <!--a href="#">About Us</a--> 
+                <a href="/home">Products</a>
+                <a href="/contactUs">Contact Us</a>
             </div>
-            <div class="icons">
-                <a href="#"><img src={{url_for('static', filename='images/search.jpg')}}></a>
-                <a href="#"><img src={{url_for('static', filename='images/account.jpg')}}></a>
-                <a href="#"><img src={{url_for('static', filename='images/cart.jpg')}}></a>
+            <div class="menu">
+                {% if not loggedIn %}
+                <a href="/loginForm">Login</a>
+                {% else %}
+                <a href="/cart">Cart</a>
+                <a href="/logout">Logout</a>
+                {% endif %}
+                
             </div>
             <button class="hamburger">
                 <span></span> 
@@ -40,7 +44,7 @@
         <a href="#">Blasts</a>
         <a href="#">Saravedi</a>
         <a href="#">Sparklers</a-->
-        <div class="form_box">   
+        <!--div class="form_box">   
             <div class="container2">
                 <div class="select-box">
                     <div class="options-container">
@@ -97,7 +101,7 @@
 
                     <div class="selected">
                         Show all Categories
-                    </div>
+                    </div-->
 
                     <div class="search-box">
                         <input type="text" placeholder="Start Typing..." />
@@ -117,16 +121,16 @@
           <!--radio buttons end-->
           <!--slide images start-->
           <div class="slide first">
-            <a href="#"><img src="images/deal1.jpg" alt=""></a>
+            <a href="#"><img src={{ url_for('static', filename='images/placeholder.jpg') }} alt=""></a>
           </div>
           <div class="slide">
-            <a href="#"><img src="images/deal2.jpg" alt=""></a>
+            <a href="#"><img src={{ url_for('static', filename='images/placeholder.jpg') }}alt=""></a>
           </div>
           <div class="slide">
-            <a href="#"><img src="images/deal3.jpg" alt=""></a>
+            <a href="#"><img src={{ url_for('static', filename='images/placeholder.jpg') }} alt=""></a>
           </div>
           <div class="slide">
-            <a href="#"><img src="images/deal4.jpg" alt=""></a>
+            <a href="#"><img src={{ url_for('static', filename='images/placeholder.jpg') }} alt=""></a>
           </div>
           <!--slide images end-->
           <!--automatic navigation start-->
@@ -153,12 +157,14 @@
         <h2 class = "title">Bestsellers</h2>
         <a href="#">View More</a>
         <div class="row">
+            {% for data in itemData %}
             <div class="col">
-                <a href="#"><img src="images/sparkler.jpg"></a>
-                <h4>Sparkler</h4>
-                <p>₹22</p>
+                <a href="#"><img src={{ url_for('static', filename='uploads/' + data[4]) }}></a>
+                <h4>{{data[1]}}</h4>
+                <p>{{data[2]}}</p>
             </div>
-            <div class="col">
+            {% endfor %}
+            <!--div class="col">
                 <a href="#"><img src="images/buss.jpg"></a>
                 <h4>Flower Pot</h4>
                 <p>₹30</p>
@@ -177,7 +183,7 @@
                 <a href="#"><img src="images/rocket.jpg"></a>
                 <h4>Rocket</h4>
                 <p>₹28</p>
-            </div>
+            </div-->
         </div>
     </div>
 
@@ -185,31 +191,13 @@
         <h2 class = "title">New Arrivals</h2>
         <a href="#">View More</a>
         <div class="row">
+            {% for data in itemData %}
             <div class="col">
-                <a href="#"><img src="images/sparkler.jpg"></a>
-                <h4>Sparkler</h4>
-                <p>₹22</p>
+                <a href="#"><img src={{ url_for('static', filename='uploads/' + data[4]) }}></a>
+                <h4>{{data[1]}}</h4>
+                <p>{{data[2]}}</p>
             </div>
-            <div class="col">
-                <a href="#"><img src="images/buss.jpg"></a>
-                <h4>Flower Pot</h4>
-                <p>₹30</p>
-            </div>
-            <div class="col">
-                <a href="#"><img src="images/chakra.jpg"></a>
-                <h4>Chakra</h4>
-                <p>₹18</p>
-            </div>
-            <div class="col">
-                <a href="#"><img src="images/atom.jpg"></a>
-                <h4>Atom Bomb</h4>
-                <p>₹25</p>
-            </div>
-            <div class="col">
-                <a href="#"><img src="images/rocket.jpg"></a>
-                <h4>Rocket</h4>
-                <p>₹28</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -217,16 +205,13 @@
         <h2 class = "title">Kid's Collection</h2>
         <a href="#">View More</a>
         <div class="row">
+            {% for data in itemData %}
             <div class="col">
-                <a href="#"><img src={{ url_for('static', filename='images/sparkler.jpg') }}></a>
-                <h4>Sparkler</h4>
-                <p>₹22</p>
+                <a href="#"><img src={{ url_for('static', filename='uploads/' + data[4]) }}></a>
+                <h4>{{data[1]}}</h4>
+                <p>{{data[2]}}</p>
             </div>
-            <div class="col">
-                <a href="#"><img src={{ url_for('static', filename='images/buss.jpg') }}></a>
-                <h4>Flower Pot</h4>
-                <p>₹30</p>
-            </div>
+            {% endfor %}
             </div>
         </div>
     </div>
@@ -277,12 +262,9 @@
     <div class="footer">
         <div class="container">
             <div class="row">
-                <div class="footer-col-1">
-                    <h3>Download Our App</h3>
-                    <p>Download App for IOS and Android</p>
-                </div>
+                
                 <div class="footer-col-2">
-                    <img src={{ url_for('static', filename='images/SIVAK.jpg.png') }}>
+                    
                     <p>We are "SIVAK" crackers online store, 
                         wholesaler of fireworks and crackers owning a 
                         shop in Sivakasi, Tamilnadu. We are into this 
