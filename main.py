@@ -232,13 +232,16 @@ def loginForm():
 @app.route("/login", methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
+        print('hi')
         email = request.form['email']
         password = request.form['password']
         if is_valid(email, password):
+            print('hello')
             session['email'] = email
             return redirect(url_for('root'))
         else:
             error = 'Invalid UserId / Password'
+            print('error')
             return render_template('login.html', error=error)
 
 @app.route("/productDescription")
@@ -319,6 +322,7 @@ def is_valid(email, password):
     cur = con.cursor()
     cur.execute('SELECT email, password FROM users')
     data = cur.fetchall()
+    
     for row in data:
         if row[0] == email and row[1] == hashlib.md5(password.encode()).hexdigest():
             return True
