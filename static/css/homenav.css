@@ -200,7 +200,12 @@ nav {
   text-decoration: none;
   display: block;
   border-radius: 20px;
-
+}
+a:visited{
+    color: #F1F1F1;
+}
+a:active{
+    color: #EEEEEE;
 }
 
 /* Change color of dropdown links on hover */
@@ -211,4 +216,6 @@ nav {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: rgb(255, 162, 56);}
+
+/* Cart from here */
 
