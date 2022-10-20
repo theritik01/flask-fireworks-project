@@ -1,45 +1,89 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </div>
     <title>Category: {{categoryName}}</title>
-    <link rel="stylesheet" href={{ url_for('static', filename='css/home.css') }}
-    /> <link rel="stylesheet" href={{ url_for('static',
-    filename='css/topStyle.css') }} />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/homenav.css')
+    }} />
   </head>
   <body>
-    <div id="title">
-      <a href="/">
-        <img id="logo" src= {{ url_for('static', filename='images/logo.png') }}
-        />
-      </a>
-
-      {% if not loggedIn %}
-      <div id="signInButton">
-        <a class="link" href="/loginForm">Sign In</a>
+    <nav>
+      <div class="container">
+        <a href="/" style="text-decoration: none"><h1>Sivak</h1></a>
+        <div class="menu">
+          <a href="/" class="is-active">Home</a>
+          <a href="/contactUs">Contact Us</a>
+          {% if not loggedIn %}
+          <a href="/loginForm">Login</a>
+          {% else %}
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Hello, <br />{{firstName}}</button>
+          <div class="dropdown-content">
+            <a href="/account/orders">Your orders</a>
+            <a href="/account/profile">Your profile</a>
+            <hr />
+            <a href="/logout">Sign Out</a>
+          </div>
+        </div>
+        {% endif %}
+        <div id="kart">
+          <a class="link" width="20px" href="/cart">
+            <img src={{url_for('static', filename='images/shoppingCart.png')}}
+            id="cartIcon" /> CART ({{noOfItems}})
+          </a>
+        </div>
+        <button class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
-      {% else %}
-      <div class="dropdown">
-        <button class="dropbtn">Hello, <br />{{firstName}}</button>
+    </nav>
+    <div class="display">
+      <div style="margin-top:150px;" class="dropdown">
+        <button class="dropbtn">Categories</button>
         <div class="dropdown-content">
-          <a href="/account/orders">Your orders</a>
-          <a href="/account/profile">Your profile</a>
-          <hr />
-          <a href="/logout">Sign Out</a>
+          {% for row in categoryData %}
+            <a href="/displayCategory?categoryId={{row[0]}}" style="text-decoration: none;">{{row[1]}}</a><br>
+          {% endfor %}
         </div>
       </div>
-      {% endif %}
-      <div id="kart">
-        <a class="link" href="/cart">
-          <img src={{url_for('static', filename='images/shoppingCart.png')}}
-          id="cartIcon" /> CART {{noOfItems}}
-        </a>
-      </div>
-    </div>
 
-    <div>
+    <div style="margin-top: 2%;">
       <h2>Showing all products of Category {{categoryName}}:</h2>
+
+      <section class="row" style="display: flex; float: left">
+        {% for data in itemData %}
+        <div
+          class="card col-md-3 mb-2"
+          style="margin-right: 0.5rem; width: 20rem"
+          id="cards"
+        >
+          <h5 class="card-title mt-2">{{data[1]}}</h5>
+          <a href="/productDescription?productId={{data[0]}}">
+            <img src={{ url_for('static', filename='uploads/' + data[4]) }}
+            class="card-img-top" id="cardImg" alt="..." />
+          </a>
+          <div class="card-body" style="margin-left: -1rem">
+            <p>
+              <s>₹{{data[2]}}</s>
+              <br />
+              <span style="font-size: 1.5rem; color: red">₹11.00</span>
+            </p>
+            <a href="/addToCart?productId={{data[0]}}" class="btn btn-primary" id="btn2">Quick Purchase</a>
+          </div>
+        </div>
+        {% endfor %}
+      </section>
+
       {% for itemData in data %}
-      <table>
+      <!-- <table>
         <tr id="productName">
           {% for row in itemData %}
           <td>{{row[1]}}</td>
@@ -60,7 +104,7 @@
           <td>₹{{row[2]}}</td>
           {% endfor %}
         </tr>
-      </table>
+      </table> -->
       {% endfor %}
     </div>
   </body>
