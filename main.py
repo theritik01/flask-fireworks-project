@@ -1,5 +1,7 @@
 from flask import *
-import mysql.connector, hashlib, os
+import mysql.connector
+import hashlib
+import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -7,6 +9,7 @@ app.secret_key = 'random string'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 def parse(data):
     ans = []
@@ -23,7 +26,7 @@ def parse(data):
 
 
 def getLoginDetails():
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
         if 'email' not in session:
             loggedIn = False
@@ -31,32 +34,36 @@ def getLoginDetails():
             noOfItems = 0
         else:
             loggedIn = True
-            cur.execute("SELECT userId, firstName FROM users WHERE email = '{}'".format(session['email']))
+            cur.execute("SELECT userId, firstName FROM users WHERE email = '{}'".format(
+                session['email']))
             userId, firstName = cur.fetchone()
-            cur.execute("SELECT count(productId) FROM kart WHERE userId = '{}'".format(userId))
+            cur.execute(
+                "SELECT count(productId) FROM kart WHERE userId = '{}'".format(userId))
             noOfItems = cur.fetchone()[0]
     conn.close()
     return (loggedIn, firstName, noOfItems)
 
+
 @app.route('/')
 def landing():
     loggedIn, firstName, noOfItems = getLoginDetails()
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
-        cur.execute('SELECT productId, name, price, description, image, stock FROM products')
+        cur.execute(
+            'SELECT productId, name, price, description, image, stock FROM products')
         itemData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
-    return render_template('Index.html',categoryData=categoryData,loggedIn=loggedIn,itemData=itemData)
-
+    return render_template('Index.html', categoryData=categoryData, loggedIn=loggedIn, itemData=itemData)
 
 
 @app.route("/home")
 def root():
     loggedIn, firstName, noOfItems = getLoginDetails()
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
-        cur.execute('SELECT productId, name, price, description, image, stock FROM products')
+        cur.execute(
+            'SELECT productId, name, price, description, image, stock FROM products')
         itemData = cur.fetchall()
         cur.execute('SELECT categoryId, name FROM categories')
         categoryData = cur.fetchall()
@@ -75,12 +82,13 @@ def contactUs():
 
 @app.route("/add")
 def admin():
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
         cur.execute("SELECT categoryId, name FROM categories")
         categories = cur.fetchall()
     conn.close()
     return render_template('add.html', categories=categories)
+
 
 @app.route("/addItem", methods=["GET", "POST"])
 def addItem():
@@ -91,41 +99,46 @@ def addItem():
         stock = int(request.form['stock'])
         categoryId = int(request.form['category'])
 
-        #Uploading image procedure
+        # Uploading image procedure
         image = request.files['image']
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         imagename = filename
-        with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+        with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
             try:
                 cur = conn.cursor()
-                cur.execute("INSERT INTO products (name, price, description, image, stock, categoryId) VALUES ('{}', {}, '{}', '{}', {}, {})".format(name, price, description, imagename, stock, categoryId))
+                cur.execute("INSERT INTO products (name, price, description, image, stock, categoryId) VALUES ('{}', {}, '{}', '{}', {}, {})".format(
+                    name, price, description, imagename, stock, categoryId))
                 conn.commit()
-                msg="added successfully"
+                msg = "added successfully"
             except:
-                msg="error occured"
+                msg = "error occured"
                 conn.rollback()
         conn.close()
         print(msg)
         return redirect(url_for('root'))
 
+
 @app.route("/remove")
 def remove():
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
-        cur.execute('SELECT productId, name, price, description, image, stock FROM products')
+        cur.execute(
+            'SELECT productId, name, price, description, image, stock FROM products')
         data = cur.fetchall()
     conn.close()
     return render_template('remove.html', data=data)
 
+
 @app.route("/removeItem")
 def removeItem():
     productId = request.args.get('productId')
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         try:
             cur = conn.cursor()
-            cur.execute('DELETE FROM products WHERE productID = {}'.format(productId))
+            cur.execute(
+                'DELETE FROM products WHERE productID = {}'.format(productId))
             conn.commit()
             msg = "Deleted successsfully"
         except:
@@ -135,18 +148,26 @@ def removeItem():
     print(msg)
     return redirect(url_for('root'))
 
+
 @app.route("/displayCategory")
 def displayCategory():
-        loggedIn, firstName, noOfItems = getLoginDetails()
-        categoryId = request.args.get("categoryId")
-        with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT products.productId, products.name, products.price, products.image, categories.name FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = {}".format(categoryId))
-            data = cur.fetchall()
-        conn.close()
-        categoryName = data[0][4]
-        data = parse(data)
-        return render_template('displayCategory.html', data=data, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryName=categoryName)
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    categoryId = request.args.get("categoryId")
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = {}".format(categoryId))
+        data = cur.fetchall()
+        cur.execute('SELECT categoryId, name FROM categories')
+        categoryData = cur.fetchall()
+    conn.close()
+    categoryName = data[0][4]
+    ans = []
+    for i in data:
+        ans.append(i)
+    itemData = ans
+    data = parse(data)
+    return render_template('displayCategory.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryName=categoryName, categoryData=categoryData)
+
 
 @app.route("/account/profile")
 def profileHome():
@@ -155,17 +176,20 @@ def profileHome():
     loggedIn, firstName, noOfItems = getLoginDetails()
     return render_template("profileHome.html", loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
+
 @app.route("/account/profile/edit")
 def editProfile():
     if 'email' not in session:
         return redirect(url_for('root'))
     loggedIn, firstName, noOfItems = getLoginDetails()
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
-        cur.execute("SELECT userId, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone FROM users WHERE email = '{}'".format(session['email']))
+        cur.execute("SELECT userId, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone FROM users WHERE email = '{}'".format(
+            session['email']))
         profileData = cur.fetchone()
     conn.close()
     return render_template("editProfile.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
 
 @app.route("/account/profile/changePassword", methods=["GET", "POST"])
 def changePassword():
@@ -176,15 +200,17 @@ def changePassword():
         oldPassword = hashlib.md5(oldPassword.encode()).hexdigest()
         newPassword = request.form['newpassword']
         newPassword = hashlib.md5(newPassword.encode()).hexdigest()
-        with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+        with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
             cur = conn.cursor()
-            cur.execute("SELECT userId, password FROM users WHERE email = '{}'".format(session['email']))
+            cur.execute("SELECT userId, password FROM users WHERE email = '{}'".format(
+                session['email']))
             userId, password = cur.fetchone()
             if (password == oldPassword):
                 try:
-                    cur.execute("UPDATE users SET password = '{}' WHERE userId = '{}'".format(newPassword, userId))
+                    cur.execute("UPDATE users SET password = '{}' WHERE userId = '{}'".format(
+                        newPassword, userId))
                     conn.commit()
-                    msg="Changed successfully"
+                    msg = "Changed successfully"
                 except:
                     conn.rollback()
                     msg = "Failed"
@@ -195,6 +221,7 @@ def changePassword():
         return render_template("changePassword.html", msg=msg)
     else:
         return render_template("changePassword.html")
+
 
 @app.route("/updateProfile", methods=["GET", "POST"])
 def updateProfile():
@@ -209,18 +236,20 @@ def updateProfile():
         state = request.form['state']
         country = request.form['country']
         phone = request.form['phone']
-        with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as con:
-                try:
-                    cur = con.cursor()
-                    cur.execute('UPDATE users SET firstName = "{}", lastName = "{}", address1 = "{}", address2 = "{}", zipcode = "{}", city = "{}", state = "{}", country = "{}", phone = "{}" WHERE email = "{}"'.format(firstName, lastName, address1, address2, zipcode, city, state, country, phone, email))
+        with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as con:
+            try:
+                cur = con.cursor()
+                cur.execute('UPDATE users SET firstName = "{}", lastName = "{}", address1 = "{}", address2 = "{}", zipcode = "{}", city = "{}", state = "{}", country = "{}", phone = "{}" WHERE email = "{}"'.format(
+                    firstName, lastName, address1, address2, zipcode, city, state, country, phone, email))
 
-                    con.commit()
-                    msg = "Saved Successfully"
-                except:
-                    con.rollback()
-                    msg = "Error occured"
+                con.commit()
+                msg = "Saved Successfully"
+            except:
+                con.rollback()
+                msg = "Error occured"
         con.close()
         return redirect(url_for('editProfile'))
+
 
 @app.route("/loginForm")
 def loginForm():
@@ -229,7 +258,8 @@ def loginForm():
     else:
         return render_template('login.html', error='')
 
-@app.route("/login", methods = ['POST', 'GET'])
+
+@app.route("/login", methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         print('hi')
@@ -244,16 +274,19 @@ def login():
             print('error')
             return render_template('login.html', error=error)
 
+
 @app.route("/productDescription")
 def productDescription():
     loggedIn, firstName, noOfItems = getLoginDetails()
     productId = request.args.get('productId')
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
-        cur.execute('SELECT productId, name, price, description, image, stock FROM products WHERE productId = {};'.format(productId))
+        cur.execute(
+            'SELECT productId, name, price, description, image, stock FROM products WHERE productId = {};'.format(productId))
         productData = cur.fetchone()
     conn.close()
-    return render_template("productDescription.html", data=productData, loggedIn = loggedIn, firstName = firstName, noOfItems = noOfItems)
+    return render_template("productDescription.html", data=productData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
 
 @app.route("/addToCart")
 def addToCart():
@@ -261,12 +294,14 @@ def addToCart():
         return redirect(url_for('loginForm'))
     else:
         productId = int(request.args.get('productId'))
-        with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+        with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
             cur = conn.cursor()
-            cur.execute("SELECT userId FROM users WHERE email = '{}'".format(session['email']))
+            cur.execute(
+                "SELECT userId FROM users WHERE email = '{}'".format(session['email']))
             userId = cur.fetchone()[0]
             try:
-                cur.execute("INSERT INTO kart (userId, productId) VALUES ('{}', '{}')".format(userId, productId))
+                cur.execute("INSERT INTO kart (userId, productId) VALUES ('{}', '{}')".format(
+                    userId, productId))
                 conn.commit()
                 msg = "Added successfully"
             except:
@@ -275,13 +310,14 @@ def addToCart():
         conn.close()
         return redirect(url_for('root'))
 
+
 @app.route("/cart")
 def cart():
     if 'email' not in session:
         return redirect(url_for('loginForm'))
     loggedIn, firstName, noOfItems = getLoginDetails()
     email = session['email']
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
         cur.execute("SELECT userId FROM users WHERE email = '{}'".format(email))
         userId = cur.fetchone()[0]
@@ -290,7 +326,8 @@ def cart():
     totalPrice = 0
     for row in products:
         totalPrice += row[2]
-    return render_template("cart.html", products = products, totalPrice=totalPrice, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+    return render_template("cart.html", products=products, totalPrice=totalPrice, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
 
 @app.route("/removeFromCart")
 def removeFromCart():
@@ -298,12 +335,13 @@ def removeFromCart():
         return redirect(url_for('loginForm'))
     email = session['email']
     productId = int(request.args.get('productId'))
-    with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as conn:
+    with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as conn:
         cur = conn.cursor()
         cur.execute("SELECT userId FROM users WHERE email = '{}'".format(email))
         userId = cur.fetchone()[0]
         try:
-            cur.execute("DELETE FROM kart WHERE userId = '{}' AND productId = '{}'".format(userId, productId))
+            cur.execute("DELETE FROM kart WHERE userId = '{}' AND productId = '{}'".format(
+                userId, productId))
             conn.commit()
             msg = "removed successfully"
         except:
@@ -312,26 +350,30 @@ def removeFromCart():
     conn.close()
     return redirect(url_for('root'))
 
+
 @app.route("/logout")
 def logout():
     session.pop('email', None)
     return redirect(url_for('root'))
 
+
 def is_valid(email, password):
-    con = mysql.connector.connect(user='root', password='password',host='localhost',database='fwork')
+    con = mysql.connector.connect(
+        user='root', password='password', host='localhost', database='fwork')
     cur = con.cursor()
     cur.execute('SELECT email, password FROM users')
     data = cur.fetchall()
-    
+
     for row in data:
         if row[0] == email and row[1] == hashlib.md5(password.encode()).hexdigest():
             return True
     return False
 
-@app.route("/register", methods = ['GET', 'POST'])
+
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        #Parse form data    
+        # Parse form data
         password = request.form['password']
         email = request.form['email']
         firstName = request.form['firstName']
@@ -344,10 +386,11 @@ def register():
         country = request.form['country']
         phone = request.form['phone']
 
-        with mysql.connector.connect(user='root', password='password',host='localhost',database='fwork') as con:
+        with mysql.connector.connect(user='root', password='password', host='localhost', database='fwork') as con:
             try:
                 cur = con.cursor()
-                cur.execute('INSERT INTO users (password, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone) VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(hashlib.md5(password.encode()).hexdigest(), email, firstName, lastName, address1, address2, zipcode, city, state, country, phone))
+                cur.execute('INSERT INTO users (password, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone) VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+                    hashlib.md5(password.encode()).hexdigest(), email, firstName, lastName, address1, address2, zipcode, city, state, country, phone))
 
                 con.commit()
 
@@ -358,13 +401,16 @@ def register():
         con.close()
         return render_template("login.html", error=msg)
 
+
 @app.route("/registerationForm")
 def registrationForm():
     return render_template("register.html")
 
+
 def allowed_file(filename):
     return '.' in filename and \
-            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 def parse(data):
     ans = []
@@ -378,6 +424,7 @@ def parse(data):
             i += 1
         ans.append(curr)
     return ans
+
 
 if __name__ == '__main__':
     app.run(debug=True)
