@@ -1,0 +1,214 @@
+:root {
+    --primary: rgb(255, 162, 56);
+    --light: #EEEEEE;
+    --dark: #212121;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira sans', sans-serif;
+}
+
+body, html{
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;    
+}
+
+
+h1 {
+    color: rgb(255, 255, 255); 
+    font-size: 28px; 
+    font-weight: 900; 
+    letter-spacing: 2px; 
+    text-transform: uppercase;
+}
+
+h2{
+    font-weight:550;
+    color: #444;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0; 
+    right: 0; 
+    z-index: 99; 
+    background-color: var(--dark); 
+    padding: 20px 32px; 
+    border-bottom: 10px solid var(--primary);
+}   
+
+ .menu {
+    flex: 1 1 0%;
+   justify-content: space-between;
+    margin: 0 4px;
+    white-space: nowrap;
+} 
+
+.menu a {     
+    color: #FFF;
+    margin: 0 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.4s;
+    padding: 8px 16px;
+    border-radius: 99px;
+}
+
+.menu a:nth-child(1) {
+    margin: 0 50px 0 100px ;
+}
+
+.menu a.is-active, .menu a:hover {
+    background-color: var(--primary);
+}
+
+.category {
+    max-width: 100%;
+    position: relative;
+    top: 90px;
+    left: 0; 
+    right: 0;
+    background-color: #F1F1F1;
+    display: flex;
+    white-space: nowrap;
+    /* padding: 10px 10px; */
+    /* display: block; */
+}
+
+.category h2 {
+    background-color: black;
+    color: white;
+    padding: 0.9% 2.5%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.category a {
+    color: rgb(45, 46, 54);
+    /* min-width: 6%; */
+    margin: 0.5% 2.5%;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.4s;
+    padding: 0.8% 1% 0.1% 1%;
+    border-radius: 99px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.category a:hover {
+    background-color: rgb(0, 93, 199);
+    color: rgb(0, 0, 0);
+    filter: invert(1);
+}
+
+
+#cartIcon{
+    height: 40px;
+    margin-left: 400px;
+}
+#cartIcon img{
+    height: 50px;
+}
+#kart{
+    display:inline-block;
+    width: 4000px;
+   justify-content: space-between;
+   white-space: nowrap;
+
+
+}
+.shopcat{
+    font-size: 20px;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-weight: bolder;
+    font-size: 1.5rem;
+    font-style: italic;
+    background-color: #212121;
+
+}
+.shopcat a{
+    color: #F1F1F1;
+}
+
+.shopcat a:hover{
+    color: var(--primary);
+}
+.display{
+    margin-left: 30px;
+}
+
+.row {
+    justify-content: space-evenly;
+    display: flex;
+}
+
+#cards {
+    border-color: gray;
+    border-width: 2px;
+}
+
+#cards:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 5px 0 orange;
+    z-index: 2;
+}
+/* Dropdown Button */
+.dropbtn {
+  background-color:rgb(255, 162, 56);
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 99px;
+
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 20px;
+  
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: var(--primary);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 20px;
+
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #444;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: rgb(255, 162, 56);}
+

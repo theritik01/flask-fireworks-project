@@ -206,7 +206,7 @@ h1 {
 
 /* --------------------Catagories------------------- */
 
-.category {
+.displayCategory {
     max-width: 100%;
     position: relative;
     top: 90px;
@@ -219,14 +219,14 @@ h1 {
     /* display: block; */
 }
 
-.category h2 {
+.displayCategory h2 {
     background-color: black;
     color: white;
     padding: 0.9% 2.5%;
     font-family: 'Poppins', sans-serif;
 }
 
-.category a {
+.displayCategory a {
     color: rgb(45, 46, 54);
     /* min-width: 6%; */
     margin: 0.5% 2.5%;
@@ -238,14 +238,14 @@ h1 {
     font-family: 'Poppins', sans-serif;
 }
 
-.category a img {
+.displayCategory a img {
     max-width: 100%;
     width: 13px;
     /* filter: invert(1); */
     margin: 0 0 -1px 3px;
 }
 
-.category a:hover {
+.displayCategory a:hover {
     background-color: rgb(0, 93, 199);
     color: rgb(0, 0, 0);
     filter: invert(1);
