@@ -220,7 +220,7 @@ nav {
     z-index: 2;
 }
 
-<<<<<<< HEAD
+/* HEAD */
 /* Links inside the dropdown */
 .dropdown-content a {
   color: var(--primary);
@@ -245,5 +245,26 @@ a:active{
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: rgb(255, 162, 56);}
 
-/* Cart from here */
+/* product display from here */
 
+#productName{
+    margin-top: 120px;
+}
+
+
+.productdec{
+    border: #212121 2px solid;
+    display: inline-flex;
+    /* padding-left: 20px; */
+}
+
+#productDescription{
+    margin-left: 500px;
+    position: absolute;
+    z-index: -1;
+    
+}
+
+#addToCart{
+    padding-left: 20px;
+}
