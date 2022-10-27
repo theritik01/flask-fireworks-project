@@ -20,7 +20,7 @@
 	<div class="menu">
 		<a href="/" class="is-active">Home</a> 
 		<!--a href="#">About Us</a--> 
-		<!-- <a href="/home">Products</a> -->
+		<a href="/home">Products</a>
 		<a href="/contactUs">Contact Us</a>
 		{% if not loggedIn %}
 		<!-- <div class="login-nav"> -->
@@ -56,9 +56,36 @@
 </nav>
 
 <br><br><br>
+<style>
+	a.button1{
+display:inline-block;
+padding:0.35em 1.2em;
+border:0.1em solid #ffffff00;
+margin:0 0.3em 0.3em 0;
+border-radius:99px;
+box-sizing: border-box;
+text-decoration:none;
+font-family:'Roboto',sans-serif;
+font-weight:300;
+color:white;
+background-color: #007BFF;
+text-align:center;
+transition: all 0.2s;
+}
+a.button1:hover{
+color:#000000;
+background-color:rgb(255,162,56);
+}
+@media all and (max-width:30em){
+a.button1{
+display:block;
+margin:0.4em auto;
+}
+}
+</style>
 
 <div id="cartItems" style = "margin-top: 7%;">
-	<h2>Shopping Cart</h2>
+	<h2 style = "margin-left: 2%;">Shopping Cart</h2>
 	<div id="tableItems">
 		<section class="row" style = "display: flex; float: left;">
 			{% for row in products %}
@@ -85,7 +112,7 @@
 		</div>
 	</div>
 </div>
-<a href="/checkout">Proceed to checkout</a>
+<a class = "button1" href="/checkout"><b>Proceed to checkout</b></a>
 </body>
 </html>
 
