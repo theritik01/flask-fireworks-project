@@ -3,7 +3,7 @@
 Ensure Python is installed (version = 3.8)
 Download the Zip file or clone the repository.
 
-install mySQL seerver from https://dev.mysql.com/downloads/mysql/
+install mySQL server from https://dev.mysql.com/downloads/mysql/
 
 install dependencies using pip-
 
